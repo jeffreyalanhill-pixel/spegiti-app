@@ -2172,9 +2172,9 @@ a{text-decoration:none;}
         <div class="settings-section-title"><i class="ti ti-building" style="margin-right:6px;"></i>Company Profile</div>
         <div class="form-row"><label>Company Name</label><input id="set-company-name" class="form-input" value="Spegiti Demo Shop"></div>
         <div class="form-row" style="margin-top:10px;"><label>Phone</label><input class="form-input" value="(704) 555-0100"></div>
-        <div class="form-row" style="margin-top:10px;"><label>Email</label><input class="form-input" value="info@carolinabuildingservices.com"></div>
+        <div class="form-row" style="margin-top:10px;"><label>Email</label><input class="form-input" value="info@spegitidemo.com"></div>
         <div class="form-row" style="margin-top:10px;"><label>Address</label><input class="form-input" value="4820 Wilkinson Blvd, Charlotte, NC 28208"></div>
-        <div class="form-row" style="margin-top:10px;"><label>Website</label><input class="form-input" value="carolinabuildingservices.com"></div>
+        <div class="form-row" style="margin-top:10px;"><label>Website</label><input class="form-input" value="spegitidemo.com"></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title"><i class="ti ti-bell" style="margin-right:6px;"></i>Notifications</div>
@@ -10260,11 +10260,11 @@ async function adminInviteCustomer() {
 
 /* ─── EMPLOYEES VIEW ────────────────────────────────────────────── */
 const EMP_DATA = [
-  {name:"Jeff Hill",role:"Owner / Project Manager",phone:"(704) 555-0101",email:"jeff@carolinabuildingservices.com",skills:["Sales","Project Mgmt","Estimating"],status:"active"},
-  {name:"Tyler Marsh",role:"Lead Cabinetmaker",phone:"(704) 555-0182",email:"tyler@carolinabuildingservices.com",skills:["CNC","Cabinet Assembly","Door Frames"],status:"active"},
-  {name:"Priya Nair",role:"Designer / Drafter",phone:"(704) 555-0143",email:"priya@carolinabuildingservices.com",skills:["AutoCAD","SketchUp","Client Drawings"],status:"active"},
-  {name:"Dana Kim",role:"Finisher",phone:"(704) 555-0167",email:"dana@carolinabuildingservices.com",skills:["Lacquer","Stain","Paint Grade"],status:"active"},
-  {name:"Marcus Webb",role:"Shop Lead / Millwork",phone:"(704) 555-0129",email:"marcus@carolinabuildingservices.com",skills:["Mouldings","Solid Wood","QC"],status:"active"},
+  {name:"Jeff Hill",role:"Owner / Project Manager",phone:"(704) 555-0101",email:"jeff@spegitidemo.com",skills:["Sales","Project Mgmt","Estimating"],status:"active"},
+  {name:"Tyler Marsh",role:"Lead Cabinetmaker",phone:"(704) 555-0182",email:"tyler@spegitidemo.com",skills:["CNC","Cabinet Assembly","Door Frames"],status:"active"},
+  {name:"Priya Nair",role:"Designer / Drafter",phone:"(704) 555-0143",email:"priya@spegitidemo.com",skills:["AutoCAD","SketchUp","Client Drawings"],status:"active"},
+  {name:"Dana Kim",role:"Finisher",phone:"(704) 555-0167",email:"dana@spegitidemo.com",skills:["Lacquer","Stain","Paint Grade"],status:"active"},
+  {name:"Marcus Webb",role:"Shop Lead / Millwork",phone:"(704) 555-0129",email:"marcus@spegitidemo.com",skills:["Mouldings","Solid Wood","QC"],status:"active"},
 ];
 function renderEmployeesView() {
   const empQ = (document.getElementById("empSearch")?.value || "").toLowerCase();
@@ -17273,7 +17273,7 @@ function _drawingSheetSVG(d) {
   const tb = `<g font-family="Arial, sans-serif">
       <rect x="${W-380}" y="${H-170}" width="340" height="130" fill="#fff" stroke="#0E1F3A" stroke-width="1.5"/>
       <line x1="${W-380}" y1="${H-128}" x2="${W-40}" y2="${H-128}" stroke="#0E1F3A"/>
-      <text x="${W-366}" y="${H-148}" font-size="15" font-weight="700" fill="#0E1F3A">CAROLINA BUILDING SERVICES</text>
+      <text x="${W-366}" y="${H-148}" font-size="15" font-weight="700" fill="#0E1F3A">SPEGITI DEMO SHOP</text>
       <text x="${W-366}" y="${H-104}" font-size="13" font-weight="600" fill="#15181E">${_drwEsc(d.name)}</text>
       <text x="${W-366}" y="${H-84}" font-size="11" fill="#525C6B">${_drwEsc(cust)} · ${_drwEsc(d.project||"")}</text>
       <text x="${W-366}" y="${H-64}" font-size="11" fill="#525C6B">${_drwEsc(d.type)} · ${_drwEsc(d.date)}</text>
