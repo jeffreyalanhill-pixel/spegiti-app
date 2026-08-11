@@ -15832,7 +15832,14 @@ function closeModal(id) {
 }
 
 /* ─── SEND DESIGNS FOR APPROVAL ─────────────────────────────────── */
-const SUPABASE_FUNCTIONS_URL = "https://bncsiyumhikicrixuzqg.supabase.co/functions/v1";
+/* ── SPEGITI SHOP REGISTRY ──────────────────────────────────────────
+   hostname → that shop's own Supabase project. Managed by
+   provision/provision.mjs. Unknown hostnames run the built-in demo. */
+const SPEGITI_SHOPS = {
+/*__SHOPS__*/
+};
+const _SHOP = SPEGITI_SHOPS[location.hostname] || null;
+const SUPABASE_FUNCTIONS_URL = (_SHOP ? _SHOP.url : "https://bncsiyumhikicrixuzqg.supabase.co") + "/functions/v1";
 
 function openSendApprovalModal(projectId) {
   const p = DATA.projects.find(x => x.id === projectId);
@@ -17906,8 +17913,8 @@ async function _sbLogActivity(msg, icon) {
    SUPABASE AUTH — Phase 0
    Paste your values from Supabase → Settings → API
    ═══════════════════════════════════════════════════════════════ */
-const SUPABASE_URL      = "https://bncsiyumhikicrixuzqg.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJuY3NpeXVtaGlraWNyaXh1enFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUxOTU0NDcsImV4cCI6MjEwMDc3MTQ0N30.y2Z3a55n-2PKYTnqDPbFIGz6DfQXxPaUCuntQ8pGoD8";
+const SUPABASE_URL      = _SHOP ? _SHOP.url  : "https://bncsiyumhikicrixuzqg.supabase.co";
+const SUPABASE_ANON_KEY = _SHOP ? _SHOP.anon : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJuY3NpeXVtaGlraWNyaXh1enFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUxOTU0NDcsImV4cCI6MjEwMDc3MTQ0N30.y2Z3a55n-2PKYTnqDPbFIGz6DfQXxPaUCuntQ8pGoD8";
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -18201,7 +18208,7 @@ function applyRoleGating() {
    no login, sbLoadAll is skipped so the seed data survives, and every
    Supabase write is swallowed by a stub that reports success. Built for
    sales demos — show the whole product without showing CBS's business. */
-const CBS_DEMO = true;   // this deployment IS the demo — app.spegiti.com
+const CBS_DEMO = !_SHOP;   // registered shop hostnames run live; everything else is the demo
 function enterDemoMode() {
   document.getElementById("cbsAuthGate").classList.add("hidden");
   const emailEl = document.getElementById("authUserEmail");
