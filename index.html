@@ -1312,7 +1312,7 @@ a{text-decoration:none;}
 <div id="cbsAuthGate">
   <div class="auth-card">
     <div class="auth-logo">Spegiti</div>
-    <div class="auth-sub">Spegiti Demo Shop — sign in to continue</div>
+    <div class="auth-sub">Sign in to continue</div>
     <label class="auth-label" for="authEmail">Email</label>
     <input class="auth-input" id="authEmail" type="email" placeholder="you@example.com" autocomplete="username">
     <label class="auth-label" for="authPassword">Password</label>
@@ -1355,7 +1355,7 @@ a{text-decoration:none;}
     <div class="sb-logo"><i class="ti ti-building"></i></div>
     <div class="sb-name-wrap">
       <span class="sb-name">Spegiti</span>
-      <span class="sb-sub" id="sbCompanyName">Spegiti Demo Shop</span>
+      <span class="sb-sub" id="sbCompanyName">Spegiti</span>
     </div>
   </div>
 
@@ -17607,6 +17607,9 @@ function _clearAllSeedData() {
     () => (typeof TIME_OFF!=="undefined"?TIME_OFF:null),
   ].forEach(get => { try { const a = get(); if (Array.isArray(a)) a.length = 0; } catch(e){} });
 }
+// Real shop: strip all fictional seed rows before any view paints them.
+// (_SHOP is set at boot from the hostname; the demo keeps its data.)
+if (typeof _SHOP !== "undefined" && _SHOP) { try { _clearAllSeedData(); } catch(e){} }
 
 async function sbLoadAll() {
   _showLoading("Loading data…");
@@ -18393,6 +18396,7 @@ function enterDemoMode() {
   if (emailEl) emailEl.textContent = "Demo mode";
   // Full-access tour as a fictional owner
   CURRENT_USER = { email: "demo@example.com", role: "owner", empName: "Demo Owner", empId: null };
+  const _dsc = document.getElementById("sbCompanyName"); if (_dsc) _dsc.textContent = "Spegiti Demo Shop";
   applyRoleGating();
   // Swallow all database traffic: any chained query resolves as success
   // with a fresh id, so Add/Edit buttons work on the in-memory data and
