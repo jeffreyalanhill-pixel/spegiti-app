@@ -1526,7 +1526,7 @@ a{text-decoration:none;}
   <div class="page-header">
     <div class="ph-greeting">
       <h1 id="dashGreeting">Good morning, Jeff</h1>
-      <p id="todayLabel"></p>
+      <p id="todayLabel">Spegiti Demo Shop · Charlotte, NC</p>
     </div>
     <div class="kpi-row" id="kpiRow">
       <div class="kpi-card" style="cursor:pointer;" onclick="showView('projects')" title="View all projects">
@@ -1812,7 +1812,7 @@ a{text-decoration:none;}
 <!-- ══ FINANCIAL VIEW ════════════════════════════════════════════ -->
 <div class="view-page" id="view-financial">
   <div class="view-header">
-    <div><div class="view-title">Financial</div><div class="view-sub" id="finViewSub"></div></div>
+    <div><div class="view-title">Financial</div><div class="view-sub" id="finViewSub">July 2026 · Spegiti Demo Shop</div></div>
     <div class="view-actions">
       <button class="btn btn-secondary" onclick="exportCSV('financial')"><i class="ti ti-download"></i> Export</button>
       <button class="btn btn-secondary" onclick="openReportModal()"><i class="ti ti-chart-bar"></i> Reports</button>
@@ -2181,7 +2181,7 @@ a{text-decoration:none;}
 <!-- ══ SETTINGS ══════════════════════════════════════════════════ -->
 <div class="view-page" id="view-settings">
   <div class="view-header">
-    <div><div class="view-title">Settings</div><div class="view-sub"></div></div>
+    <div><div class="view-title">Settings</div><div class="view-sub">Spegiti Demo Shop</div></div>
     <div class="view-actions">
       <button class="btn btn-primary" onclick="saveSettings()"><i class="ti ti-check"></i> Save Changes</button>
     </div>
@@ -2190,11 +2190,11 @@ a{text-decoration:none;}
     <div style="display:flex;flex-direction:column;gap:14px;">
       <div class="settings-section">
         <div class="settings-section-title"><i class="ti ti-building" style="margin-right:6px;"></i>Company Profile</div>
-        <div class="form-row"><label>Company Name</label><input id="set-company-name" class="form-input" placeholder="Your shop's name"></div>
-        <div class="form-row" style="margin-top:10px;"><label>Phone</label><input class="form-input" placeholder="(555) 555-0100"></div>
-        <div class="form-row" style="margin-top:10px;"><label>Email</label><input class="form-input" placeholder="hello@yourshop.com"></div>
-        <div class="form-row" style="margin-top:10px;"><label>Address</label><input class="form-input" placeholder="Street, City, State ZIP"></div>
-        <div class="form-row" style="margin-top:10px;"><label>Website</label><input class="form-input" placeholder="yourshop.com"></div>
+        <div class="form-row"><label>Company Name</label><input id="set-company-name" class="form-input" value="Spegiti Demo Shop"></div>
+        <div class="form-row" style="margin-top:10px;"><label>Phone</label><input class="form-input" value="(704) 555-0100"></div>
+        <div class="form-row" style="margin-top:10px;"><label>Email</label><input class="form-input" value="info@spegitidemo.com"></div>
+        <div class="form-row" style="margin-top:10px;"><label>Address</label><input class="form-input" value="4820 Wilkinson Blvd, Charlotte, NC 28208"></div>
+        <div class="form-row" style="margin-top:10px;"><label>Website</label><input class="form-input" value="spegitidemo.com"></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title"><i class="ti ti-bell" style="margin-right:6px;"></i>Notifications</div>
@@ -2518,7 +2518,7 @@ a{text-decoration:none;}
         </div>
         <div class="form-row"><label>Assigned To</label>
           <select id="nwo-assigned" class="form-input">
-            
+            <option>Marcus Webb</option><option>Tyler Marsh</option><option>Dana Kim</option><option>Priya Nair</option><option>Jeff Hill</option>
           </select>
         </div>
       </div>
@@ -2550,7 +2550,7 @@ a{text-decoration:none;}
         <div class="form-row"><label>Install Date</label><input id="si-date" class="form-input" type="date"></div>
         <div class="form-row"><label>Installer / Crew</label>
           <select id="si-installer" class="form-input">
-            
+            <option>Marcus Webb</option><option>Tyler Marsh</option><option>Dana Kim</option><option>Jeff Hill</option>
           </select>
         </div>
       </div>
@@ -2980,7 +2980,7 @@ a{text-decoration:none;}
       <div class="form-row"><label>Project Type / Scope</label><input id="ep-type" class="form-input"></div>
       <div class="form-grid2">
         <div class="form-row"><label>Assigned PM</label>
-          <select id="ep-pm" class="form-input"></select>
+          <select id="ep-pm" class="form-input"><option>Jeff Hill</option><option>Tyler Marsh</option><option>Priya Nair</option><option>Dana Kim</option><option>Marcus Webb</option></select>
         </div>
         <div class="form-row"><label>Priority</label>
           <select id="ep-priority" class="form-input"><option value="urgent">Urgent</option><option value="high">High</option><option value="med">Medium</option><option value="normal">Normal</option></select>
@@ -2993,7 +2993,7 @@ a{text-decoration:none;}
       <div class="form-grid2">
         <div class="form-row"><label>Install Date</label><input id="ep-install" class="form-input" type="date"></div>
         <div class="form-row"><label>Installer</label>
-          <select id="ep-installer" class="form-input"><option value="">— Unassigned —</option></select>
+          <select id="ep-installer" class="form-input"><option value="">— Unassigned —</option><option>Marcus Webb</option><option>Tyler Marsh</option><option>Dana Kim</option><option>Jeff Hill</option></select>
         </div>
       </div>
     </div>
@@ -3658,7 +3658,7 @@ a{text-decoration:none;}
       <div class="form-row"><label>Project Type / Scope</label><input id="np-type" class="form-input" placeholder="e.g. Primary Closet + Island"></div>
       <div class="form-grid2">
         <div class="form-row"><label>Assigned PM</label>
-          <select id="np-pm" class="form-input"></select>
+          <select id="np-pm" class="form-input"><option>Jeff Hill</option><option>Tyler Marsh</option><option>Priya Nair</option><option>Dana Kim</option><option>Marcus Webb</option></select>
         </div>
         <div class="form-row"><label>Starting Stage</label>
           <select id="np-stage" class="form-input"><option>Lead</option><option>Quoted</option><option>Approved</option><option>In Shop</option><option>Installing</option><option>Done</option></select>
@@ -6379,10 +6379,8 @@ function renderLeadsView() {
 function emailLead(name) {
   const l = DATA.leads_full.find(x => x.name === name);
   const firstName = l?.contact ? l.contact.split(" ")[0] : name.split(" ")[0];
-  const _shop = _shopName();
-  const _me = (typeof CURRENT_USER!=="undefined" && CURRENT_USER.empName) ? CURRENT_USER.empName : _shop;
-  const subject = encodeURIComponent(`Following up on your interest — ${_shop}`);
-  const body = encodeURIComponent(`Hi ${firstName},\n\nThanks for reaching out about ${l?.type||"your project"} — I'd love to learn more about what you have in mind.\n\nWould you be available for a quick call this week? We can walk through the details and give you a realistic estimate.\n\nBest,\n${_me}\n${_shop}`);
+  const subject = encodeURIComponent(`Following up on your interest — Spegiti Demo Shop`);
+  const body = encodeURIComponent(`Hi ${firstName},\n\nThanks for reaching out about ${l?.type||"your project"} — I'd love to learn more about what you have in mind.\n\nWould you be available for a quick call this week? We can walk through the details and give you a realistic estimate.\n\nBest,\nJeff Hill\nSpegiti Demo Shop`);
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   if (l && l.status === "new" || l?.status === "needs_response") {
     l.status = "contacted";
@@ -6459,7 +6457,7 @@ async function convertLeadToProject(name) {
   const proj = {
     id: nextId, customer: l ? l.name : name,
     contact: l ? l.contact : "", type: l ? l.type : "New Project",
-    stage: "Lead", assigned: CURRENT_USER.empName || "",
+    stage: "Lead", assigned: CURRENT_USER.empName || "Jeff Hill",
     installer: null, value: l ? l.value : null,
     dueDate: null, installDate: null, priority: "med",
     designerId: defaultLeadDesigner() || CURRENT_USER.empId || null,   // configured lead designer, else the converting user
@@ -7489,7 +7487,7 @@ async function submitSendInvoice() {
       + `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Due date</td><td style="padding:4px 0;">${dueTxt}</td></tr></table>`
       + (note ? `<p>${note.replace(/</g,"&lt;")}</p>` : "")
       + `<p>Thank you for your business,<br>${_shopName()}</p>`;
-    emailed = await sendCustomerEmail(to, `Invoice — ${p.customer} · ${p.id} · ${_shopName()}`, html, { text: `Invoice for ${p.id}. Amount due: $${amount.toLocaleString()}. Due ${dueTxt}.` });
+    emailed = await sendCustomerEmail(to, `Invoice — ${p.customer} · ${p.id} · Spegiti Demo Shop`, html, { text: `Invoice for ${p.id}. Amount due: $${amount.toLocaleString()}. Due ${dueTxt}.` });
   }
   if (btn){ btn.disabled=false; btn.innerHTML='<i class="ti ti-send"></i> Send invoice'; }
   closeModal("send-invoice");
@@ -9028,7 +9026,7 @@ function tcClockIn() {
   document.getElementById("tcClockSub").style.color = "var(--green)";
   tcInterval = setInterval(tcTick, 1000);
   const proj = document.getElementById("tcProject")?.selectedOptions[0]?.text || "";
-  logActivity(`${(typeof CURRENT_USER!=="undefined" && CURRENT_USER.empName) || "You"} clocked in${proj && proj !== "— Select project —" ? " · " + proj.split(" (")[0] : ""}`, "ti-clock");
+  logActivity(`Jeff Hill clocked in${proj && proj !== "— Select project —" ? " · " + proj.split(" (")[0] : ""}`, "ti-clock");
   showToast("Clocked in — have a good shift!", "success");
 }
 function tcClockOut() {
@@ -9042,7 +9040,7 @@ function tcClockOut() {
   const projName = (proj && proj !== "— Select project —") ? proj.split(" (")[0] : "unassigned";
   const _now = new Date();
   const _dateStr = _now.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
-  const meName = (typeof CURRENT_USER !== "undefined" && CURRENT_USER.empName) || "You";
+  const meName = (typeof CURRENT_USER !== "undefined" && CURRENT_USER.empName) || "Jeff Hill";
   TC_ENTRIES.unshift({name:meName, project:projName, in:new Date(tcStartTime).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}), out:_now.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}), hrs:elapsed.toFixed(1), active:false, date:_dateStr});
   renderTimeClock();
   // Persist to the DB so this labor flows into job costing.
@@ -9777,7 +9775,7 @@ function aiGetResponse(lower) {
       const p = contactProj;
       const firstName = p.contact ? p.contact.split(" ")[0] : null;
       const subject = encodeURIComponent(`Your ${p.type||"project"} update — ${p.id}`);
-      const body = encodeURIComponent(`Hi ${firstName||"there"},\n\nJust wanted to touch base on your ${p.type||"project"} (${p.id}).\n\nCurrent stage: ${p.stage}\n\nBest,\n${_shopName()}`);
+      const body = encodeURIComponent(`Hi ${firstName||"there"},\n\nJust wanted to touch base on your ${p.type||"project"} (${p.id}).\n\nCurrent stage: ${p.stage}\n\nBest,\nSpegiti Demo Shop`);
       return `<strong>${p.customer}</strong> contact:<br>`
         + (p.contact ? `👤 ${p.contact}<br>` : "")
         + `📂 ${p.id} — ${p.type}<br>`
@@ -10172,13 +10170,13 @@ async function inviteCustomerToPortal(custId) {
   // Email them their login — the invite is useless if they never hear about it.
   const portalUrl = location.origin + "/portal.html";
   const html = `<p>Hi ${ (cust.contact || cust.name).replace(/</g,"&lt;") },</p>`
-    + `<p>${_shopName()} set up your private client portal. You can follow your project's progress, review designs, see invoices, and message our team — all in one place.</p>`
+    + `<p>Spegiti Demo Shop set up your private client portal. You can follow your project's progress, review designs, see invoices, and message our team — all in one place.</p>`
     + `<table style="border-collapse:collapse;margin:14px 0;"><tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Portal</td><td style="padding:4px 0;"><a href="${portalUrl}">${portalUrl}</a></td></tr>`
     + `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Login email</td><td style="padding:4px 0;">${email}</td></tr>`
     + `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Temporary password</td><td style="padding:4px 0;font-family:monospace;">${String(password).replace(/</g,"&lt;")}</td></tr></table>`
     + `<p>Questions? Just reply to this email or send us a message in the portal.</p>`
     + `<p>— ${_shopName()}</p>`;
-  const sent = await sendCustomerEmail(email, "Your ${_shopName()} client portal", html,
+  const sent = await sendCustomerEmail(email, "Your Spegiti Demo Shop client portal", html,
     { text: `Your client portal: ${portalUrl}\nLogin: ${email}\nTemporary password: ${password}` });
   showToast(sent ? `Portal invite emailed to ${email}` : `Login created, but the email failed — share ${portalUrl} + the password manually`, sent ? "success" : "warn", 6000);
   openCustomer(custId);
@@ -10241,12 +10239,12 @@ async function savePortalSettings() {
   if (notify && email) {
     const portalUrl = location.origin + "/portal.html";
     const html = `<p>Hi ${(cust.contact || cust.name).replace(/</g,"&lt;")},</p>`
-      + `<p>Your ${_shopName()} portal details were updated.</p>`
+      + `<p>Your Spegiti Demo Shop portal details were updated.</p>`
       + `<table style="border-collapse:collapse;margin:14px 0;"><tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Portal</td><td style="padding:4px 0;"><a href="${portalUrl}">${portalUrl}</a></td></tr>`
       + `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Login email</td><td style="padding:4px 0;">${email}</td></tr>`
       + (password ? `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">New password</td><td style="padding:4px 0;font-family:monospace;">${password.replace(/</g,"&lt;")}</td></tr>` : "")
       + `</table><p>— ${_shopName()}</p>`;
-    emailed = await sendCustomerEmail(email, "Your ${_shopName()} portal details", html,
+    emailed = await sendCustomerEmail(email, "Your Spegiti Demo Shop portal details", html,
       { text: `Portal: ${portalUrl}\nLogin: ${email}${password ? "\nNew password: " + password : ""}` });
   }
   showToast(emailed ? `Saved — details emailed to ${email}` : "Portal settings saved", "success", 4500);
@@ -13123,8 +13121,8 @@ function openCustomer(nameOrId) {
   // Footer actions
   document.getElementById("cpEmailBtn").onclick = () => {
     const firstName = contact ? contact.split(" ")[0] : name.split(" ")[0];
-    const subject = encodeURIComponent(`Your project with ${_shopName()}`);
-    const body = encodeURIComponent(`Hi ${firstName},\n\nI wanted to touch base about your project${activeProjs.length ? " — " + activeProjs[0].id : ""} with ${_shopName()}.\n\nBest,\n${_shopName()}`);
+    const subject = encodeURIComponent(`Your project with Spegiti Demo Shop`);
+    const body = encodeURIComponent(`Hi ${firstName},\n\nI wanted to touch base about your project${activeProjs.length ? " — " + activeProjs[0].id : ""} with Spegiti Demo Shop.\n\nBest,\nSpegiti Demo Shop`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
     logActivity(`Email drafted for ${name}`, "ti-mail");
     showToast(`Email drafted for ${firstName}`, "success");
@@ -13541,7 +13539,7 @@ function openPO(idx) {
   contactBtn.innerHTML = `<i class="ti ti-mail"></i> Contact ${po.vendor.split(" ")[0]}`;
   contactBtn.onclick = () => {
     const subj = encodeURIComponent(`RE: ${po.num} — ${po.project}`);
-    const body = encodeURIComponent(`Hi,\n\nFollowing up on purchase order ${po.num} for ${po.project}.\n\nItems: ${po.items}\nExpected: ${po.eta}\n\nPlease confirm status.\n\nThank you,\n${_shopName()}`);
+    const body = encodeURIComponent(`Hi,\n\nFollowing up on purchase order ${po.num} for ${po.project}.\n\nItems: ${po.items}\nExpected: ${po.eta}\n\nPlease confirm status.\n\nThank you,\nSpegiti Demo Shop`);
     window.location.href = `mailto:${vendorEmail}?subject=${subj}&body=${body}`;
     logActivity(`Email drafted to ${po.vendor} re: ${po.num}`, "ti-mail");
     showToast(`Email drafted for ${po.vendor.split(" ")[0]}`, "success");
@@ -13680,7 +13678,7 @@ function drwState(d) {
     const revNum = parseInt((d.rev || "R0").replace("R","")) || 0;
     const history = [];
     for (let i = revNum; i >= 0; i--) {
-      history.push({ rev:"R"+i, date: i===revNum ? d.date : "Earlier", note: i===revNum ? "Current revision" : i===0 ? "Initial issue" : "Design update", who: ((typeof CURRENT_USER!=="undefined" && CURRENT_USER.empName) || "You") });
+      history.push({ rev:"R"+i, date: i===revNum ? d.date : "Earlier", note: i===revNum ? "Current revision" : i===0 ? "Initial issue" : "Design update", who: i%2===0?"Priya Nair":"Jeff Hill" });
     }
     st.revHistory = history;
     if (st.approval == null) st.approval = revNum > 1 ? "approved" : "pending";
@@ -13931,7 +13929,7 @@ function submitBumpRev() {
     state.revHistory[0].fileName = d.fileName;
   }
   // Build new rev entry
-  const newEntry = { rev: newRev, date: "Today", note: note || "Revision issued", who: ((typeof CURRENT_USER!=="undefined" && CURRENT_USER.empName) || "You") };
+  const newEntry = { rev: newRev, date: "Today", note: note || "Revision issued", who: "Jeff Hill" };
   if (file) {
     const fileKey = "drw_" + Date.now();
     newEntry.fileKey = fileKey;
@@ -14090,7 +14088,7 @@ function quickBumpRev(idx) {
   const newRev = "R" + (curNum + 1);
   if (state.revHistory.length > 0) state.revHistory[0].approval = state.approval;
   if (!state.revHistory[0]?.fileKey && d.fileKey) { state.revHistory[0].fileKey = d.fileKey; state.revHistory[0].fileName = d.fileName; }
-  state.revHistory.unshift({ rev:newRev, date:"Today", note:"Revision issued", who:((typeof CURRENT_USER!=="undefined" && CURRENT_USER.empName) || "You") });
+  state.revHistory.unshift({ rev:newRev, date:"Today", note:"Revision issued", who:"Jeff Hill" });
   d.rev = newRev;
   state.approval = "pending";
   state.revNotes = "";
@@ -14809,7 +14807,7 @@ function detailEmailCustomer() {
   openEmailCompose({
     to: (cust && cust.email) || "",
     subject: `Update on your ${p.type || "project"} — ${p.id}`,
-    body: `Hi ${first},\n\nJust wanted to touch base on your ${p.type || "project"} with ${_shopName()}.\n\nCurrent stage: ${p.stage}\n\nBest regards,\n${_shopName()}`,
+    body: `Hi ${first},\n\nJust wanted to touch base on your ${p.type || "project"} with Spegiti Demo Shop.\n\nCurrent stage: ${p.stage}\n\nBest regards,\nSpegiti Demo Shop`,
     replyTo: (typeof CURRENT_USER !== "undefined" && CURRENT_USER && CURRENT_USER.email) || undefined,
   });
 }
@@ -14818,9 +14816,9 @@ function resendProposal(projectId) {
   const prop = DATA.proposals_full.find(x => x.projectId === projectId);
   if (!prop) return;
   const firstName = prop.contact ? prop.contact.split(" ")[0] : "there";
-  const subject = encodeURIComponent(`Re: ${prop.item} — ${_shopName()}`);
+  const subject = encodeURIComponent(`Re: ${prop.item} — Spegiti Demo Shop`);
   const body = encodeURIComponent(
-    `Hi ${firstName},\n\nI wanted to resend our proposal for ${prop.item}${prop.value ? " ($" + prop.value.toLocaleString() + ")" : ""} — sometimes these get buried in the inbox.\n\nPlease let us know if you have any questions or if you'd like to adjust anything before signing off.\n\nBest,\n${_shopName()}`
+    `Hi ${firstName},\n\nI wanted to resend our proposal for ${prop.item}${prop.value ? " ($" + prop.value.toLocaleString() + ")" : ""} — sometimes these get buried in the inbox.\n\nPlease let us know if you have any questions or if you'd like to adjust anything before signing off.\n\nBest,\nSpegiti Demo Shop`
   );
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   logActivity(`Proposal resent — ${prop.customer}`, "ti-send");
@@ -14835,7 +14833,7 @@ function followUpApproval(projectId) {
   const val = prop?.value ? `$${prop.value.toLocaleString()}` : "";
   const subject = encodeURIComponent(`Following up on your proposal — ${item}${val ? " · " + val : ""}`);
   const body = encodeURIComponent(
-    `Hi ${firstName},\n\nI wanted to follow up on the proposal we sent for your ${item} project${val ? " (" + val + ")" : ""}. We're holding your spot on the schedule and would love to get things moving.\n\nIf you have any questions or want to adjust the scope, just reply here — happy to hop on a quick call.\n\nBest,\n${_shopName()}`
+    `Hi ${firstName},\n\nI wanted to follow up on the proposal we sent for your ${item} project${val ? " (" + val + ")" : ""}. We're holding your spot on the schedule and would love to get things moving.\n\nIf you have any questions or want to adjust the scope, just reply here — happy to hop on a quick call.\n\nBest,\nSpegiti Demo Shop`
   );
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   logActivity(`Follow-up email drafted — ${p?.customer || projectId}`, "ti-mail");
@@ -14845,8 +14843,8 @@ function followUpApproval(projectId) {
 function ctxEmailCustomer(projectId) {
   const p = DATA.projects.find(x => x.id === projectId);
   if (!p) return;
-  const subject = encodeURIComponent(`Your project with ${_shopName()} — ${p.id}`);
-  const body = encodeURIComponent(`Hi ${p.contact ? p.contact.split(" ")[0] : ""},\n\nI wanted to follow up on your ${p.type || "project"} (${p.id}).\n\nCurrent status: ${p.stage}\n\nBest,\n${_shopName()}`);
+  const subject = encodeURIComponent(`Your project with Spegiti Demo Shop — ${p.id}`);
+  const body = encodeURIComponent(`Hi ${p.contact ? p.contact.split(" ")[0] : ""},\n\nI wanted to follow up on your ${p.type || "project"} (${p.id}).\n\nCurrent status: ${p.stage}\n\nBest,\nSpegiti Demo Shop`);
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   logActivity(`Email drafted for ${p.customer}`, "ti-mail");
 }
@@ -16054,8 +16052,8 @@ function submitNewLead() {
 function sendInvoice(projectId, name, remaining) {
   const p = DATA.projects.find(x => x.id === projectId);
   const amt = remaining ? "$" + Number(remaining).toLocaleString() : "balance due";
-  const subject = encodeURIComponent(`Invoice — ${name} · ${projectId} · ${_shopName()}`);
-  const body = encodeURIComponent(`Dear ${p?.contact || name},\n\nPlease find your invoice for ${p?.type || "your project"} (${projectId}).\n\nBalance due: ${amt}\n\nPayment is due within 30 days of receipt. Please contact us with any questions.\n\nThank you for your business,\n${_shopName()}\n(704) 555-0100`);
+  const subject = encodeURIComponent(`Invoice — ${name} · ${projectId} · Spegiti Demo Shop`);
+  const body = encodeURIComponent(`Dear ${p?.contact || name},\n\nPlease find your invoice for ${p?.type || "your project"} (${projectId}).\n\nBalance due: ${amt}\n\nPayment is due within 30 days of receipt. Please contact us with any questions.\n\nThank you for your business,\nSpegiti Demo Shop\n(704) 555-0100`);
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   logActivity(`Invoice sent — ${name} · ${amt}`, "ti-file-invoice");
   pushNotif(`Invoice sent to ${name} — ${amt}`, "ti-file-invoice", "var(--go)", "#DCFCE7", () => showView("financial"));
@@ -16270,8 +16268,8 @@ function submitInviteMember() {
   const role = document.getElementById("inv-role").value;
   if (!name) { showToast("Name required", "warn"); return; }
   if (!email) { showToast("Email required", "warn"); return; }
-  const subject = encodeURIComponent(`You're invited to join ${_shopName()} on CBS`);
-  const body = encodeURIComponent(`Hi ${name.split(" ")[0]},\n\nYou've been invited to join the ${_shopName()} team dashboard.\n\nRole: ${role}\n\nClick the link below to set up your account:\nhttps://cbs.app/invite/[token]\n\nLooking forward to working with you.\n\n${_shopName()}`);
+  const subject = encodeURIComponent(`You're invited to join Spegiti Demo Shop on CBS`);
+  const body = encodeURIComponent(`Hi ${name.split(" ")[0]},\n\nYou've been invited to join the Spegiti Demo Shop team dashboard.\n\nRole: ${role}\n\nClick the link below to set up your account:\nhttps://cbs.app/invite/[token]\n\nLooking forward to working with you.\n\nSpegiti Demo Shop`);
   window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
   closeModal("invite-member");
   logActivity(`Invite sent to ${name} (${role})`, "ti-user-plus");
@@ -16396,7 +16394,6 @@ function wizSkip() {
   document.getElementById("wizOverlay").style.display = "none";
   showToast("You can finish setup anytime in Settings", "info");
 }
-// The shop's own name for customer-facing emails (falls back gracefully).
 function _shopName() {
   try { return (typeof APP_CONFIG!=="undefined" && APP_CONFIG.company_name) || document.getElementById("sbCompanyName")?.textContent || "our shop"; }
   catch(e){ return "our shop"; }
@@ -17001,7 +16998,7 @@ function openEditProject() {
   document.getElementById("ep-customer").value = p.customer || "";
   document.getElementById("ep-contact").value = p.contact || "";
   document.getElementById("ep-type").value = p.type || "";
-  document.getElementById("ep-pm").value = p.assigned || "";
+  document.getElementById("ep-pm").value = p.assigned || "Jeff Hill";
   document.getElementById("ep-priority").value = p.priority || "med";
   document.getElementById("ep-value").value = p.value || "";
   document.getElementById("ep-due").value = p.dueDate || "";
@@ -18427,7 +18424,7 @@ function enterDemoMode() {
   const _dg = document.getElementById("dashGreeting");
   if (_dg) _dg.textContent = _dg.textContent.replace(/,.*$/, "") + ", there";
   const _tl = document.getElementById("todayLabel");
-  if (_tl && !_tl.textContent.includes("Demo")) _tl.textContent = "${_shopName()} · " + _tl.textContent.replace(/^.*· /, "");
+  if (_tl && !_tl.textContent.includes("Demo")) _tl.textContent = "Spegiti Demo Shop · " + _tl.textContent.replace(/^.*· /, "");
   const _dsc2 = document.getElementById("sbCompanyName"); if (_dsc2) _dsc2.textContent = "Spegiti Demo Shop";
   // Unmissable ribbon so a prospect never mistakes this for live data
   const ribbon = document.createElement("div");
