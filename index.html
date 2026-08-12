@@ -5774,7 +5774,7 @@ function showView(name) {
   if (name === "timeclock")  { const s = document.getElementById("tcSearch");  if (s) s.value = ""; }
 
   // lazy render each view on first visit
-  if (name === "dashboard") { if (window.playDashLoad) window.playDashLoad(); renderPipeline(); renderProjects(document.getElementById("dashProjSearch")?.value.toLowerCase()||""); renderKPIs(); renderNeedsYou(); renderAppointments(); renderWeekInstalls(); renderMaterials(); renderLeads(); renderFinancial(); renderApprovals(); renderCommandRail(); try{renderStations();}catch(e){} try{renderInstalls();}catch(e){} }
+  if (name === "dashboard") { if (window.playDashLoad) window.playDashLoad(); renderPipeline(); renderProjects(document.getElementById("dashProjSearch")?.value.toLowerCase()||""); renderKPIs(); renderNeedsYou(); renderAppointments(); renderWeekInstalls(); renderMaterials(); renderLeads(); renderFinancial(); renderApprovals(); renderCommandRail(); try{renderStations();}catch(e){} try{renderInstalls();}catch(e){} try{renderAlertBar();}catch(e){} }
   if (name === "myschedule") renderMySchedule();
   if (name === "teamschedule") renderTeamSchedule();
   if (name === "leads") renderLeadsView();
