@@ -18424,8 +18424,9 @@ function enterDemoMode() {
   const _dsc2 = document.getElementById("sbCompanyName"); if (_dsc2) _dsc2.textContent = "Spegiti Demo Shop";
   // Unmissable ribbon so a prospect never mistakes this for live data
   const ribbon = document.createElement("div");
-  ribbon.innerHTML = `<div style="position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:9999;background:#F0A91B;color:#3B2A00;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 16px;border-radius:0 0 8px 8px;box-shadow:0 2px 8px rgba(0,0,0,.15);">Demo — fictional data</div>`;
+  ribbon.innerHTML = `<div style="position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:9999;background:#F0A91B;color:#3B2A00;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 16px;border-radius:0 0 8px 8px;box-shadow:0 2px 8px rgba(0,0,0,.15);">Demo — empty shop</div>`;
   document.body.appendChild(ribbon);
+  try { _clearAllSeedData(); } catch(e){}   // demo starts empty — no fictional jobs/crew
   showView("dashboard");
 }
 
