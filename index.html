@@ -1327,6 +1327,26 @@ a{text-decoration:none;}
   </div>
 </div>
 
+<!-- ── FIRST-RUN SETUP WIZARD ─────────────────────────────────── -->
+<div id="wizOverlay" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(12,26,63,.55);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:18px;width:100%;max-width:560px;max-height:92vh;overflow:auto;box-shadow:0 40px 100px rgba(0,0,0,.4);">
+    <div style="padding:22px 28px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;">
+      <div style="width:34px;height:34px;border-radius:9px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;font-family:'Archivo',sans-serif;">~</div>
+      <div style="flex:1;">
+        <div style="font-weight:800;font-size:16px;color:var(--navy);">Welcome to Spegiti</div>
+        <div style="font-size:12px;color:var(--muted);" id="wizStepLabel">Let's set up your shop — takes about two minutes.</div>
+      </div>
+      <div id="wizDots" style="display:flex;gap:6px;"></div>
+    </div>
+    <div id="wizBody" style="padding:26px 28px;"></div>
+    <div style="padding:16px 28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;">
+      <button class="btn btn-secondary btn-sm" id="wizBack" onclick="wizGo(-1)" style="visibility:hidden;"><i class="ti ti-arrow-left"></i> Back</button>
+      <button class="btn btn-secondary btn-sm" id="wizSkip" onclick="wizSkip()" style="margin-left:auto;">Skip for now</button>
+      <button class="btn btn-primary btn-sm" id="wizNext" onclick="wizNext()">Next <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+</div>
+
 <div class="app">
 
 <!-- ── NAV RAIL ──────────────────────────────────────────────── -->
@@ -16257,6 +16277,132 @@ function submitInviteMember() {
   showToast(`Invite sent to ${name.split(" ")[0]}`, "success");
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   FIRST-RUN SETUP WIZARD — new shops only
+   ═══════════════════════════════════════════════════════════════ */
+const WIZ_PRESETS = {
+  closets:  { label:"Closets & storage", desc:"Lead → Measure → Design → Quote → Approved → In Shop → Installing → Done",
+    stages:[{name:"Lead",phase:"lead"},{name:"Measure Scheduled",phase:"quote"},{name:"Designing",phase:"quote"},{name:"Quoted",phase:"quote"},{name:"Approved",phase:"approved"},{name:"In Shop",phase:"production"},{name:"Installing",phase:"install"},{name:"Done",phase:"done"}] },
+  millwork: { label:"Millwork from plans", desc:"Bid → On Hold → Field Measure → Re-price → Approved → In Shop → Delivery → Done",
+    stages:[{name:"Bid",phase:"lead"},{name:"On Hold",phase:"quote"},{name:"Field Measure",phase:"quote"},{name:"Re-priced",phase:"quote"},{name:"Approved",phase:"approved"},{name:"In Shop",phase:"production"},{name:"Delivery",phase:"install"},{name:"Done",phase:"done"}] },
+  standard: { label:"Keep it simple", desc:"Lead → Quoted → Approved → In Shop → Installing → Done",
+    stages:DEFAULT_STAGE_CFG.map(s=>({...s})) },
+};
+let _wizStep = 0, _wizState = { name:"", preset:"standard", crew:[] };
+const _WIZ_STEPS = ["name","pipeline","crew","done"];
+
+function openSetupWizard() {
+  _wizStep = 0;
+  _wizState = { name: (APP_CONFIG.company_name || _SHOP?.name || "").replace(/ Demo Shop$/,""), preset:"standard", crew:[] };
+  document.getElementById("wizOverlay").style.display = "flex";
+  _wizRender();
+}
+function _wizRender() {
+  const body = document.getElementById("wizBody");
+  const step = _WIZ_STEPS[_wizStep];
+  document.getElementById("wizBack").style.visibility = _wizStep === 0 ? "hidden" : "visible";
+  document.getElementById("wizNext").innerHTML = _wizStep === _WIZ_STEPS.length-1 ? '<i class="ti ti-check"></i> Finish' : 'Next <i class="ti ti-arrow-right"></i>';
+  document.getElementById("wizSkip").style.display = _wizStep === _WIZ_STEPS.length-1 ? "none" : "";
+  document.getElementById("wizDots").innerHTML = _WIZ_STEPS.map((_,i)=>`<span style="width:8px;height:8px;border-radius:50%;background:${i===_wizStep?'var(--blue)':i<_wizStep?'var(--go)':'var(--line)'};"></span>`).join("");
+  const labels = { name:"Step 1 · Your shop", pipeline:"Step 2 · How jobs flow", crew:"Step 3 · Your team", done:"All set" };
+  document.getElementById("wizStepLabel").textContent = labels[step];
+
+  if (step === "name") {
+    body.innerHTML = `
+      <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;color:var(--navy);margin-bottom:6px;">What's your shop called?</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">This shows on your dashboard, your customer portal, and the emails you send.</p>
+      <input id="wizName" class="form-input" placeholder="e.g. Carolina Building Services" value="${(_wizState.name||"").replace(/"/g,"&quot;")}" style="font-size:15px;height:44px;" oninput="_wizState.name=this.value">`;
+    setTimeout(()=>document.getElementById("wizName")?.focus(), 50);
+  } else if (step === "pipeline") {
+    body.innerHTML = `
+      <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;color:var(--navy);margin-bottom:6px;">How do your jobs move?</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">Pick the closest fit — you can rename or add stages anytime in Settings.</p>
+      ${Object.entries(WIZ_PRESETS).map(([k,p])=>`
+        <label style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border:1.5px solid ${_wizState.preset===k?'var(--blue)':'var(--line)'};border-radius:12px;margin-bottom:10px;cursor:pointer;" onclick="_wizState.preset='${k}';_wizRender()">
+          <span style="width:18px;height:18px;border-radius:50%;border:2px solid ${_wizState.preset===k?'var(--blue)':'var(--line)'};flex-shrink:0;margin-top:2px;position:relative;">${_wizState.preset===k?'<span style="position:absolute;inset:3px;border-radius:50%;background:var(--blue);"></span>':''}</span>
+          <span><span style="font-weight:700;font-size:14px;color:var(--navy);">${p.label}</span><span style="display:block;font-size:12px;color:var(--muted);font-family:'Space Mono',monospace;margin-top:3px;">${p.desc}</span></span>
+        </label>`).join("")}`;
+  } else if (step === "crew") {
+    body.innerHTML = `
+      <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;color:var(--navy);margin-bottom:6px;">Who's on your team?</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">Add your crew now, or skip and do it later. We'll create their records; you can send logins from each profile.</p>
+      <div id="wizCrewList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;"></div>
+      <button class="btn btn-secondary btn-sm" onclick="_wizAddCrew()"><i class="ti ti-plus"></i> Add a team member</button>`;
+    _wizRenderCrew();
+  } else if (step === "done") {
+    body.innerHTML = `
+      <div style="text-align:center;padding:8px 0 4px;">
+        <div style="width:60px;height:60px;border-radius:50%;background:#E7F6EF;color:var(--go);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px;"><i class="ti ti-check"></i></div>
+        <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;color:var(--navy);margin-bottom:8px;">${(_wizState.name||"Your shop")} is ready.</div>
+        <p style="font-size:14px;color:var(--muted);max-width:34em;margin:0 auto 6px;">Your pipeline is set and your team is in. The dashboard is empty because you haven't added a job yet — that's the natural next step.</p>
+      </div>`;
+  }
+}
+function _wizRenderCrew() {
+  const el = document.getElementById("wizCrewList"); if (!el) return;
+  el.innerHTML = _wizState.crew.map((c,i)=>`
+    <div style="display:flex;gap:8px;">
+      <input class="form-input" placeholder="Name" value="${(c.name||"").replace(/"/g,"&quot;")}" style="flex:1;height:38px;font-size:13px;" oninput="_wizState.crew[${i}].name=this.value">
+      <select class="form-input" style="width:150px;height:38px;font-size:13px;" onchange="_wizState.crew[${i}].role=this.value">
+        ${["Installer","Cabinetmaker","Designer","Finisher","Shop Lead","Project Manager","Admin"].map(r=>`<option ${c.role===r?"selected":""}>${r}</option>`).join("")}
+      </select>
+      <button class="btn btn-secondary btn-sm" style="padding:6px 9px;color:var(--red);" onclick="_wizState.crew.splice(${i},1);_wizRenderCrew()"><i class="ti ti-x"></i></button>
+    </div>`).join("");
+}
+function _wizAddCrew() { _wizState.crew.push({ name:"", role:"Installer" }); _wizRenderCrew(); }
+function wizGo(d) { _wizStep = Math.max(0, Math.min(_WIZ_STEPS.length-1, _wizStep+d)); _wizRender(); }
+async function wizNext() {
+  const step = _WIZ_STEPS[_wizStep];
+  if (step === "name") {
+    _wizState.name = (document.getElementById("wizName")?.value || "").trim();
+    if (!_wizState.name) return showToast("Give your shop a name to continue", "warn");
+    await sb.from("app_config").upsert({ key:"company_name", value: _wizState.name, updated_at:new Date().toISOString() });
+    APP_CONFIG.company_name = _wizState.name;
+    _applyCompanyName(_wizState.name);
+  } else if (step === "pipeline") {
+    const stages = WIZ_PRESETS[_wizState.preset].stages;
+    const value = JSON.stringify(stages);
+    await sb.from("app_config").upsert({ key:"pipeline_stages", value, updated_at:new Date().toISOString() });
+    APP_CONFIG.pipeline_stages = value;
+    try { loadStageCfg(value); renderPipeline?.(); } catch(e){}
+  } else if (step === "crew") {
+    const rows = _wizState.crew.filter(c => (c.name||"").trim());
+    for (const c of rows) {
+      await sb.from("employees").insert({ name:c.name.trim(), role:c.role, perm_role:_wizRoleToPerm(c.role), status:"active" });
+    }
+    if (rows.length) { try { const { data } = await sb.from("employees").select("*").order("name"); if (data){ EMP_DATA.length=0; EMP_DATA.push(...data.map(r=>({name:r.name,role:r.role||"",phone:r.phone||"",email:r.email||"",skills:[],status:r.status||"active",_uuid:r.id,permRole:r.perm_role}))); } } catch(e){} }
+  }
+  if (_wizStep === _WIZ_STEPS.length-1) return wizFinish();
+  wizGo(1);
+}
+function _wizRoleToPerm(role) {
+  if (/manager|admin|lead/i.test(role)) return "manager";
+  if (/design/i.test(role)) return "designer";
+  return "installer";
+}
+async function wizFinish() {
+  await sb.from("app_config").upsert({ key:"onboarding_done", value:"true", updated_at:new Date().toISOString() });
+  APP_CONFIG.onboarding_done = "true";
+  document.getElementById("wizOverlay").style.display = "none";
+  logActivity("Shop setup completed", "ti-rocket");
+  showToast("You're all set — add your first job to get going", "success", 5000);
+  try { showView("dashboard"); renderEmployeesView?.(); } catch(e){}
+}
+function wizSkip() {
+  // Skipping still marks onboarding done so it doesn't nag; nothing is lost.
+  sb.from("app_config").upsert({ key:"onboarding_done", value:"true", updated_at:new Date().toISOString() });
+  APP_CONFIG.onboarding_done = "true";
+  document.getElementById("wizOverlay").style.display = "none";
+  showToast("You can finish setup anytime in Settings", "info");
+}
+function _applyCompanyName(name) {
+  if (!name) return;
+  const sbc = document.getElementById("sbCompanyName"); if (sbc) sbc.textContent = name;
+  const setc = document.getElementById("set-company-name"); if (setc) setc.value = name;
+  document.title = name + " — Spegiti";
+  const vs = document.querySelector("#view-settings .view-sub"); if (vs) vs.textContent = name;
+}
+
 function saveSettings() {
   const name = document.getElementById("set-company-name")?.value.trim();
   if (name) {
@@ -17442,8 +17588,29 @@ function _hideLoading() {
   if (el) el.style.display = "none";
 }
 
+/* Every in-memory array that ships with fictional demo rows. A real
+   shop must never see these, so we wipe them all before loading from
+   the DB. (The demo path — enterDemoMode — skips sbLoadAll entirely,
+   so it keeps its seed data.) */
+function _clearAllSeedData() {
+  [ () => DATA.projects, () => DATA.appointments, () => DATA.approvals,
+    () => DATA.materials, () => DATA.leads, () => DATA.stations, () => DATA.installs,
+    () => DATA.leads_full, () => DATA.proposals_full,
+    () => (typeof CUST_DATA!=="undefined"?CUST_DATA:null),
+    () => (typeof WO_DATA!=="undefined"?WO_DATA:null),
+    () => (typeof PL_DATA!=="undefined"?PL_DATA:null),
+    () => (typeof DRW_DATA!=="undefined"?DRW_DATA:null),
+    () => (typeof EMP_DATA!=="undefined"?EMP_DATA:null),
+    () => (typeof PO_DATA!=="undefined"?PO_DATA:null),
+    () => (typeof TC_ENTRIES!=="undefined"?TC_ENTRIES:null),
+    () => (typeof ORD_DATA!=="undefined"?ORD_DATA:null),
+    () => (typeof TIME_OFF!=="undefined"?TIME_OFF:null),
+  ].forEach(get => { try { const a = get(); if (Array.isArray(a)) a.length = 0; } catch(e){} });
+}
+
 async function sbLoadAll() {
   _showLoading("Loading data…");
+  _clearAllSeedData();   // real shop: start clean, never show fictional rows
   try {
     // ── shared date/time helpers ──────────────────────────────────
     const MO = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -17714,6 +17881,7 @@ async function sbLoadAll() {
       APP_CONFIG = {}; (cfg || []).forEach(r => { APP_CONFIG[r.key] = r.value; });
       loadStageCfg(APP_CONFIG.pipeline_stages);   // per-shop stage names (defaults if unset)
       loadFeatureCfg(APP_CONFIG.enabled_features); // per-shop feature groups (unset = all on)
+      if (APP_CONFIG.company_name) { try { _applyCompanyName(APP_CONFIG.company_name); } catch(e){} }
       try { applyRoleGating(); } catch (e) {}      // re-hide nav now that features are known
     } catch (e) { /* table not created yet */ }
     try {
@@ -17875,6 +18043,15 @@ async function sbLoadAll() {
       const view = active.id.replace("view-","");
       if (typeof showView === "function") showView(view);
     }
+
+    // ── first-run setup wizard ────────────────────────────────────
+    // A freshly provisioned shop hasn't finished onboarding yet.
+    try {
+      if (!CBS_DEMO && typeof can === "function" && can("settings")
+          && (typeof APP_CONFIG === "undefined" || APP_CONFIG.onboarding_done !== "true")) {
+        setTimeout(() => { try { openSetupWizard(); } catch(e){} }, 300);
+      }
+    } catch(e){}
   } catch(err) {
     console.error("[sbLoadAll]", err);
     showToast("Data load error: " + err.message, "error");
