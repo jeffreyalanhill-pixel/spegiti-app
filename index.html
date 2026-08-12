@@ -6379,8 +6379,8 @@ function renderLeadsView() {
 function emailLead(name) {
   const l = DATA.leads_full.find(x => x.name === name);
   const firstName = l?.contact ? l.contact.split(" ")[0] : name.split(" ")[0];
-  const subject = encodeURIComponent(`Following up on your interest — Spegiti Demo Shop`);
-  const body = encodeURIComponent(`Hi ${firstName},\n\nThanks for reaching out about ${l?.type||"your project"} — I'd love to learn more about what you have in mind.\n\nWould you be available for a quick call this week? We can walk through the details and give you a realistic estimate.\n\nBest,\nJeff Hill\nSpegiti Demo Shop`);
+  const subject = encodeURIComponent(`Following up on your interest — ${_shopName()}`);
+  const body = encodeURIComponent(`Hi ${firstName},\n\nThanks for reaching out about ${l?.type||"your project"} — I'd love to learn more about what you have in mind.\n\nWould you be available for a quick call this week? We can walk through the details and give you a realistic estimate.\n\nBest,\n${_shopName()}`);
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   if (l && l.status === "new" || l?.status === "needs_response") {
     l.status = "contacted";
@@ -7487,7 +7487,7 @@ async function submitSendInvoice() {
       + `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Due date</td><td style="padding:4px 0;">${dueTxt}</td></tr></table>`
       + (note ? `<p>${note.replace(/</g,"&lt;")}</p>` : "")
       + `<p>Thank you for your business,<br>${_shopName()}</p>`;
-    emailed = await sendCustomerEmail(to, `Invoice — ${p.customer} · ${p.id} · Spegiti Demo Shop`, html, { text: `Invoice for ${p.id}. Amount due: $${amount.toLocaleString()}. Due ${dueTxt}.` });
+    emailed = await sendCustomerEmail(to, `Invoice — ${p.customer} · ${p.id} · ${_shopName()}`, html, { text: `Invoice for ${p.id}. Amount due: $${amount.toLocaleString()}. Due ${dueTxt}.` });
   }
   if (btn){ btn.disabled=false; btn.innerHTML='<i class="ti ti-send"></i> Send invoice'; }
   closeModal("send-invoice");
@@ -9775,7 +9775,7 @@ function aiGetResponse(lower) {
       const p = contactProj;
       const firstName = p.contact ? p.contact.split(" ")[0] : null;
       const subject = encodeURIComponent(`Your ${p.type||"project"} update — ${p.id}`);
-      const body = encodeURIComponent(`Hi ${firstName||"there"},\n\nJust wanted to touch base on your ${p.type||"project"} (${p.id}).\n\nCurrent stage: ${p.stage}\n\nBest,\nSpegiti Demo Shop`);
+      const body = encodeURIComponent(`Hi ${firstName||"there"},\n\nJust wanted to touch base on your ${p.type||"project"} (${p.id}).\n\nCurrent stage: ${p.stage}\n\nBest,\n${_shopName()}`);
       return `<strong>${p.customer}</strong> contact:<br>`
         + (p.contact ? `👤 ${p.contact}<br>` : "")
         + `📂 ${p.id} — ${p.type}<br>`
@@ -10170,13 +10170,13 @@ async function inviteCustomerToPortal(custId) {
   // Email them their login — the invite is useless if they never hear about it.
   const portalUrl = location.origin + "/portal.html";
   const html = `<p>Hi ${ (cust.contact || cust.name).replace(/</g,"&lt;") },</p>`
-    + `<p>Spegiti Demo Shop set up your private client portal. You can follow your project's progress, review designs, see invoices, and message our team — all in one place.</p>`
+    + `<p>${_shopName()} set up your private client portal. You can follow your project's progress, review designs, see invoices, and message our team — all in one place.</p>`
     + `<table style="border-collapse:collapse;margin:14px 0;"><tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Portal</td><td style="padding:4px 0;"><a href="${portalUrl}">${portalUrl}</a></td></tr>`
     + `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Login email</td><td style="padding:4px 0;">${email}</td></tr>`
     + `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Temporary password</td><td style="padding:4px 0;font-family:monospace;">${String(password).replace(/</g,"&lt;")}</td></tr></table>`
     + `<p>Questions? Just reply to this email or send us a message in the portal.</p>`
     + `<p>— ${_shopName()}</p>`;
-  const sent = await sendCustomerEmail(email, "Your Spegiti Demo Shop client portal", html,
+  const sent = await sendCustomerEmail(email, ("Your "+_shopName()+" client portal"), html,
     { text: `Your client portal: ${portalUrl}\nLogin: ${email}\nTemporary password: ${password}` });
   showToast(sent ? `Portal invite emailed to ${email}` : `Login created, but the email failed — share ${portalUrl} + the password manually`, sent ? "success" : "warn", 6000);
   openCustomer(custId);
@@ -10239,12 +10239,12 @@ async function savePortalSettings() {
   if (notify && email) {
     const portalUrl = location.origin + "/portal.html";
     const html = `<p>Hi ${(cust.contact || cust.name).replace(/</g,"&lt;")},</p>`
-      + `<p>Your Spegiti Demo Shop portal details were updated.</p>`
+      + `<p>Your ${_shopName()} portal details were updated.</p>`
       + `<table style="border-collapse:collapse;margin:14px 0;"><tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Portal</td><td style="padding:4px 0;"><a href="${portalUrl}">${portalUrl}</a></td></tr>`
       + `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">Login email</td><td style="padding:4px 0;">${email}</td></tr>`
       + (password ? `<tr><td style="padding:4px 16px 4px 0;color:#525C6B;">New password</td><td style="padding:4px 0;font-family:monospace;">${password.replace(/</g,"&lt;")}</td></tr>` : "")
       + `</table><p>— ${_shopName()}</p>`;
-    emailed = await sendCustomerEmail(email, "Your Spegiti Demo Shop portal details", html,
+    emailed = await sendCustomerEmail(email, ("Your "+_shopName()+" portal details"), html,
       { text: `Portal: ${portalUrl}\nLogin: ${email}${password ? "\nNew password: " + password : ""}` });
   }
   showToast(emailed ? `Saved — details emailed to ${email}` : "Portal settings saved", "success", 4500);
@@ -13121,8 +13121,8 @@ function openCustomer(nameOrId) {
   // Footer actions
   document.getElementById("cpEmailBtn").onclick = () => {
     const firstName = contact ? contact.split(" ")[0] : name.split(" ")[0];
-    const subject = encodeURIComponent(`Your project with Spegiti Demo Shop`);
-    const body = encodeURIComponent(`Hi ${firstName},\n\nI wanted to touch base about your project${activeProjs.length ? " — " + activeProjs[0].id : ""} with Spegiti Demo Shop.\n\nBest,\nSpegiti Demo Shop`);
+    const subject = encodeURIComponent(`Your project with ${_shopName()}`);
+    const body = encodeURIComponent(`Hi ${firstName},\n\nI wanted to touch base about your project${activeProjs.length ? " — " + activeProjs[0].id : ""} with ${_shopName()}.\n\nBest,\n${_shopName()}`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
     logActivity(`Email drafted for ${name}`, "ti-mail");
     showToast(`Email drafted for ${firstName}`, "success");
@@ -13539,7 +13539,7 @@ function openPO(idx) {
   contactBtn.innerHTML = `<i class="ti ti-mail"></i> Contact ${po.vendor.split(" ")[0]}`;
   contactBtn.onclick = () => {
     const subj = encodeURIComponent(`RE: ${po.num} — ${po.project}`);
-    const body = encodeURIComponent(`Hi,\n\nFollowing up on purchase order ${po.num} for ${po.project}.\n\nItems: ${po.items}\nExpected: ${po.eta}\n\nPlease confirm status.\n\nThank you,\nSpegiti Demo Shop`);
+    const body = encodeURIComponent(`Hi,\n\nFollowing up on purchase order ${po.num} for ${po.project}.\n\nItems: ${po.items}\nExpected: ${po.eta}\n\nPlease confirm status.\n\nThank you,\n${_shopName()}`);
     window.location.href = `mailto:${vendorEmail}?subject=${subj}&body=${body}`;
     logActivity(`Email drafted to ${po.vendor} re: ${po.num}`, "ti-mail");
     showToast(`Email drafted for ${po.vendor.split(" ")[0]}`, "success");
@@ -14807,7 +14807,7 @@ function detailEmailCustomer() {
   openEmailCompose({
     to: (cust && cust.email) || "",
     subject: `Update on your ${p.type || "project"} — ${p.id}`,
-    body: `Hi ${first},\n\nJust wanted to touch base on your ${p.type || "project"} with Spegiti Demo Shop.\n\nCurrent stage: ${p.stage}\n\nBest regards,\nSpegiti Demo Shop`,
+    body: `Hi ${first},\n\nJust wanted to touch base on your ${p.type || "project"} with ${_shopName()}.\n\nCurrent stage: ${p.stage}\n\nBest regards,\n${_shopName()}`,
     replyTo: (typeof CURRENT_USER !== "undefined" && CURRENT_USER && CURRENT_USER.email) || undefined,
   });
 }
@@ -14816,9 +14816,9 @@ function resendProposal(projectId) {
   const prop = DATA.proposals_full.find(x => x.projectId === projectId);
   if (!prop) return;
   const firstName = prop.contact ? prop.contact.split(" ")[0] : "there";
-  const subject = encodeURIComponent(`Re: ${prop.item} — Spegiti Demo Shop`);
+  const subject = encodeURIComponent(`Re: ${prop.item} — ${_shopName()}`);
   const body = encodeURIComponent(
-    `Hi ${firstName},\n\nI wanted to resend our proposal for ${prop.item}${prop.value ? " ($" + prop.value.toLocaleString() + ")" : ""} — sometimes these get buried in the inbox.\n\nPlease let us know if you have any questions or if you'd like to adjust anything before signing off.\n\nBest,\nSpegiti Demo Shop`
+    `Hi ${firstName},\n\nI wanted to resend our proposal for ${prop.item}${prop.value ? " ($" + prop.value.toLocaleString() + ")" : ""} — sometimes these get buried in the inbox.\n\nPlease let us know if you have any questions or if you'd like to adjust anything before signing off.\n\nBest,\n${_shopName()}`
   );
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   logActivity(`Proposal resent — ${prop.customer}`, "ti-send");
@@ -14833,7 +14833,7 @@ function followUpApproval(projectId) {
   const val = prop?.value ? `$${prop.value.toLocaleString()}` : "";
   const subject = encodeURIComponent(`Following up on your proposal — ${item}${val ? " · " + val : ""}`);
   const body = encodeURIComponent(
-    `Hi ${firstName},\n\nI wanted to follow up on the proposal we sent for your ${item} project${val ? " (" + val + ")" : ""}. We're holding your spot on the schedule and would love to get things moving.\n\nIf you have any questions or want to adjust the scope, just reply here — happy to hop on a quick call.\n\nBest,\nSpegiti Demo Shop`
+    `Hi ${firstName},\n\nI wanted to follow up on the proposal we sent for your ${item} project${val ? " (" + val + ")" : ""}. We're holding your spot on the schedule and would love to get things moving.\n\nIf you have any questions or want to adjust the scope, just reply here — happy to hop on a quick call.\n\nBest,\n${_shopName()}`
   );
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   logActivity(`Follow-up email drafted — ${p?.customer || projectId}`, "ti-mail");
@@ -14843,8 +14843,8 @@ function followUpApproval(projectId) {
 function ctxEmailCustomer(projectId) {
   const p = DATA.projects.find(x => x.id === projectId);
   if (!p) return;
-  const subject = encodeURIComponent(`Your project with Spegiti Demo Shop — ${p.id}`);
-  const body = encodeURIComponent(`Hi ${p.contact ? p.contact.split(" ")[0] : ""},\n\nI wanted to follow up on your ${p.type || "project"} (${p.id}).\n\nCurrent status: ${p.stage}\n\nBest,\nSpegiti Demo Shop`);
+  const subject = encodeURIComponent(`Your project with ${_shopName()} — ${p.id}`);
+  const body = encodeURIComponent(`Hi ${p.contact ? p.contact.split(" ")[0] : ""},\n\nI wanted to follow up on your ${p.type || "project"} (${p.id}).\n\nCurrent status: ${p.stage}\n\nBest,\n${_shopName()}`);
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   logActivity(`Email drafted for ${p.customer}`, "ti-mail");
 }
@@ -16052,8 +16052,8 @@ function submitNewLead() {
 function sendInvoice(projectId, name, remaining) {
   const p = DATA.projects.find(x => x.id === projectId);
   const amt = remaining ? "$" + Number(remaining).toLocaleString() : "balance due";
-  const subject = encodeURIComponent(`Invoice — ${name} · ${projectId} · Spegiti Demo Shop`);
-  const body = encodeURIComponent(`Dear ${p?.contact || name},\n\nPlease find your invoice for ${p?.type || "your project"} (${projectId}).\n\nBalance due: ${amt}\n\nPayment is due within 30 days of receipt. Please contact us with any questions.\n\nThank you for your business,\nSpegiti Demo Shop\n(704) 555-0100`);
+  const subject = encodeURIComponent(`Invoice — ${name} · ${projectId} · ${_shopName()}`);
+  const body = encodeURIComponent(`Dear ${p?.contact || name},\n\nPlease find your invoice for ${p?.type || "your project"} (${projectId}).\n\nBalance due: ${amt}\n\nPayment is due within 30 days of receipt. Please contact us with any questions.\n\nThank you for your business,\n${_shopName()}`);
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
   logActivity(`Invoice sent — ${name} · ${amt}`, "ti-file-invoice");
   pushNotif(`Invoice sent to ${name} — ${amt}`, "ti-file-invoice", "var(--go)", "#DCFCE7", () => showView("financial"));
@@ -16268,8 +16268,8 @@ function submitInviteMember() {
   const role = document.getElementById("inv-role").value;
   if (!name) { showToast("Name required", "warn"); return; }
   if (!email) { showToast("Email required", "warn"); return; }
-  const subject = encodeURIComponent(`You're invited to join Spegiti Demo Shop on CBS`);
-  const body = encodeURIComponent(`Hi ${name.split(" ")[0]},\n\nYou've been invited to join the Spegiti Demo Shop team dashboard.\n\nRole: ${role}\n\nClick the link below to set up your account:\nhttps://cbs.app/invite/[token]\n\nLooking forward to working with you.\n\nSpegiti Demo Shop`);
+  const subject = encodeURIComponent(`You're invited to join ${_shopName()} on CBS`);
+  const body = encodeURIComponent(`Hi ${name.split(" ")[0]},\n\nYou've been invited to join the ${_shopName()} team dashboard.\n\nRole: ${role}\n\nClick the link below to set up your account:\nhttps://cbs.app/invite/[token]\n\nLooking forward to working with you.\n\n${_shopName()}`);
   window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
   closeModal("invite-member");
   logActivity(`Invite sent to ${name} (${role})`, "ti-user-plus");
