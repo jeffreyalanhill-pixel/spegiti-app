@@ -5253,7 +5253,7 @@ function renderStations() {
   const running = DATA.stations.filter(s=>s.status==="running").length;
   const idle    = DATA.stations.filter(s=>s.status==="idle").length;
   const waiting = DATA.stations.filter(s=>s.status==="waiting").length;
-  const capacity = Math.round((running / DATA.stations.length) * 100);
+  const capacity = DATA.stations.length ? Math.round((running / DATA.stations.length) * 100) : 0;
 
   document.getElementById("shopSummary").innerHTML = `
     <div class="shop-stat" style="cursor:pointer;" title="View running stations" onclick="showView('shop');setTimeout(()=>{const el=document.querySelector('.station-row-big .si-running')||document.querySelector('.si-running');if(el)el.closest('[onclick]')?.scrollIntoView({behavior:'smooth',block:'center'});},200)"><div class="ss-num" style="color:var(--green)">${running}</div><div class="ss-lbl">Running</div></div>
@@ -5774,7 +5774,7 @@ function showView(name) {
   if (name === "timeclock")  { const s = document.getElementById("tcSearch");  if (s) s.value = ""; }
 
   // lazy render each view on first visit
-  if (name === "dashboard") { if (window.playDashLoad) window.playDashLoad(); renderPipeline(); renderProjects(document.getElementById("dashProjSearch")?.value.toLowerCase()||""); renderKPIs(); renderNeedsYou(); renderAppointments(); renderWeekInstalls(); renderMaterials(); renderLeads(); renderFinancial(); renderApprovals(); renderCommandRail(); }
+  if (name === "dashboard") { if (window.playDashLoad) window.playDashLoad(); renderPipeline(); renderProjects(document.getElementById("dashProjSearch")?.value.toLowerCase()||""); renderKPIs(); renderNeedsYou(); renderAppointments(); renderWeekInstalls(); renderMaterials(); renderLeads(); renderFinancial(); renderApprovals(); renderCommandRail(); try{renderStations();}catch(e){} try{renderInstalls();}catch(e){} }
   if (name === "myschedule") renderMySchedule();
   if (name === "teamschedule") renderTeamSchedule();
   if (name === "leads") renderLeadsView();
@@ -16401,6 +16401,11 @@ function _applyCompanyName(name) {
   const setc = document.getElementById("set-company-name"); if (setc) setc.value = name;
   document.title = name + " — Spegiti";
   const vs = document.querySelector("#view-settings .view-sub"); if (vs) vs.textContent = name;
+  const tl = document.getElementById("todayLabel");
+  if (tl && !tl.textContent.includes(name)) tl.textContent = name + " · " + tl.textContent.replace(/^.*· /, "");
+  const gr = document.getElementById("dashGreeting");
+  const first = (CURRENT_USER?.empName || "").split(" ")[0];
+  if (gr && first && !/, /.test(gr.textContent)) gr.textContent = gr.textContent.replace(/,.*$/, "") + ", " + first;
 }
 
 function saveSettings() {
@@ -17240,11 +17245,11 @@ rail.addEventListener("mouseleave", () => rail.classList.remove("open"));
 const now = new Date();
 const _hour = now.getHours();
 const _greeting = _hour < 12 ? "Good morning" : _hour < 17 ? "Good afternoon" : "Good evening";
-document.getElementById("dashGreeting").textContent = `${_greeting}, Jeff`;
-document.getElementById("todayLabel").textContent =
-  "Spegiti Demo Shop · " + now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+const _todayStr = now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+document.getElementById("dashGreeting").textContent = _greeting;
+document.getElementById("todayLabel").textContent = _todayStr;
 const _finSub = document.getElementById("finViewSub");
-if (_finSub) _finSub.textContent = now.toLocaleDateString("en-US",{month:"long",year:"numeric"}) + " · Spegiti Demo Shop";
+if (_finSub) _finSub.textContent = now.toLocaleDateString("en-US",{month:"long",year:"numeric"});
 // Update Time Clock subtitle with today's date
 const _tcSub = document.querySelector("#view-timeclock .view-sub");
 if (_tcSub) _tcSub.textContent = "Clock in · " + now.toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
@@ -18414,7 +18419,10 @@ function enterDemoMode() {
   sb.auth.signOut = async () => { location.href = location.pathname; };
   // Generic identity everywhere CBS-specific text would leak into a demo
   const _dg = document.getElementById("dashGreeting");
-  if (_dg) _dg.textContent = _dg.textContent.replace(/, .*/, ", there");
+  if (_dg) _dg.textContent = _dg.textContent.replace(/,.*$/, "") + ", there";
+  const _tl = document.getElementById("todayLabel");
+  if (_tl && !_tl.textContent.includes("Demo")) _tl.textContent = "Spegiti Demo Shop · " + _tl.textContent.replace(/^.*· /, "");
+  const _dsc2 = document.getElementById("sbCompanyName"); if (_dsc2) _dsc2.textContent = "Spegiti Demo Shop";
   // Unmissable ribbon so a prospect never mistakes this for live data
   const ribbon = document.createElement("div");
   ribbon.innerHTML = `<div style="position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:9999;background:#F0A91B;color:#3B2A00;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 16px;border-radius:0 0 8px 8px;box-shadow:0 2px 8px rgba(0,0,0,.15);">Demo — fictional data</div>`;
